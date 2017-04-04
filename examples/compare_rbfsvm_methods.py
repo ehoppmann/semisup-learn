@@ -22,18 +22,18 @@ cov = [[s, 0], [0, s]]
 # some random Gaussians
 gaussians = 6  # np.random.randint(4, 7)
 Xs = np.random.multivariate_normal([np.random.random() * meandistance, np.random.random() * meandistance], cov,
-                                   (N / gaussians,))
+                                   (N // gaussians,))
 for i in range(gaussians - 1):
     Xs = np.vstack((Xs, np.random.multivariate_normal(
-        [np.random.random() * meandistance, np.random.random() * meandistance], cov, (N / gaussians,))))
+        [np.random.random() * meandistance, np.random.random() * meandistance], cov, (N // gaussians,))))
 
 # cut data into XOR
 ytrue = ((Xs[:, 0] < np.mean(Xs[:, 0])) * (Xs[:, 1] < np.mean(Xs[:, 1])) + (Xs[:, 0] > np.mean(Xs[:, 0])) * (
-Xs[:, 1] > np.mean(Xs[:, 1]))) * 1
+    Xs[:, 1] > np.mean(Xs[:, 1]))) * 1
 
 ys = np.array([-1] * N)
-sidx = random.sample(np.where(ytrue == 0)[0], supevised_data_points / 2) + random.sample(np.where(ytrue == 1)[0],
-                                                                                         supevised_data_points / 2)
+sidx = random.sample(np.where(ytrue == 0)[0], supevised_data_points // 2) + \
+       random.sample(np.where(ytrue == 1)[0], supevised_data_points // 2)
 ys[sidx] = ytrue[sidx]
 
 Xsupervised = Xs[ys != -1, :]

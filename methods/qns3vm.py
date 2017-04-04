@@ -78,7 +78,7 @@ from numpy import *
 from scipy import optimize
 from scipy import sparse
 
-warnings.simplefilter('error')
+# warnings.simplefilter('error')
 
 __author__ = 'Fabian Gieseke, Antti Airola, Tapio Pahikkala, Oliver Kramer'
 __version__ = '0.1'
@@ -647,7 +647,7 @@ class QN_S3VM_Sparse:
         c_current = zeros(self.__dim, float64)
         c_current[self.__dim - 1] = self.__b
         # Annealing sequence.
-        for i in xrange(len(self.__lam_Uvec)):
+        for i in range(len(self.__lam_Uvec)):
             self.__lamU = self.__lam_Uvec[i]
             # crop one dimension (in case the offset b is fixed)
             c_current = c_current[:self.__dim - 1]
@@ -756,13 +756,13 @@ class LinearKernel():
         self._data2 = mat(data2)
         assert self._data1.shape[1] == (self._data2.T).shape[0]
         try:
+            logging.debug("Kernel Matrix computed...")
             return self._data1 * self._data2.T
         except Exception as e:
             logging.error("Error while computing kernel matrix: " + str(e))
             import traceback
             traceback.print_exc()
             sys.exit()
-        logging.debug("Kernel Matrix computed...")
 
     def getKernelValue(self, xi, xj):
         """
@@ -796,27 +796,26 @@ class DictLinearKernel():
         try:
             km = mat(zeros((self._dim1, self._dim2), dtype=float64))
             if self._symmetric:
-                for i in xrange(self._dim1):
+                for i in range(self._dim1):
                     message = 'Kernel Matrix Progress: %dx%d/%dx%d' % (i, self._dim2, self._dim1, self._dim2)
                     logging.debug(message)
-                    for j in xrange(i, self._dim2):
+                    for j in range(i, self._dim2):
                         val = self.getKernelValue(self._data1[i], self._data2[j])
                         km[i, j] = val
                         km[j, i] = val
-                return km
             else:
-                for i in xrange(self._dim1):
+                for i in range(self._dim1):
                     message = 'Kernel Matrix Progress: %dx%d/%dx%d' % (i, self._dim2, self._dim1, self._dim2)
                     logging.debug(message)
-                    for j in xrange(0, self._dim2):
+                    for j in range(0, self._dim2):
                         val = self.getKernelValue(self._data1[i], self._data2[j])
                         km[i, j] = val
-                return km
 
+            logging.debug("Kernel Matrix computed...")
+            return km
         except Exception as e:
             logging.error("Error while computing kernel matrix: " + str(e))
             sys.exit()
-        logging.debug("Kernel Matrix computed...")
 
     def getKernelValue(self, xi, xj):
         """
@@ -924,7 +923,6 @@ class DictRBFKernel():
                         val = self.getKernelValue(self._data1[i], self._data2[j])
                         km[i, j] = val
                         km[j, i] = val
-                return km
             else:
                 for i in range(0, self._dim1):
                     message = 'Kernel Matrix Progress: %dx%d/%dx%d' % (i, self._dim2, self._dim1, self._dim2)
@@ -932,11 +930,11 @@ class DictRBFKernel():
                     for j in range(0, self._dim2):
                         val = self.getKernelValue(self._data1[i], self._data2[j])
                         km[i, j] = val
-                return km
+            logging.info("Kernel Matrix computed...")
+            return km
         except Exception as e:
             logging.error("Error while computing kernel matrix: " + str(e))
             sys.exit()
-        logging.info("Kernel Matrix computed...")
 
     def getKernelValue(self, xi, xj):
         """

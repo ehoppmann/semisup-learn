@@ -20,9 +20,9 @@ Xs = np.vstack((Xs, np.random.multivariate_normal([s * meandistance, s * meandis
 ytrue = np.array([0] * N + [1] * N)
 
 ys = np.array([-1] * (2 * N))
-for i in range(supevised_data_points / 2):
+for i in range(supevised_data_points // 2):
     ys[np.random.randint(0, N)] = 0
-for i in range(supevised_data_points / 2):
+for i in range(supevised_data_points // 2):
     ys[np.random.randint(N, 2 * N)] = 1
 
 Xsupervised = Xs[ys != -1, :]
