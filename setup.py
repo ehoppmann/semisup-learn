@@ -17,9 +17,9 @@ test_requirements = []
 
 setup(
     name='semisup_learn',
-    version='0.0.1',
+    version='0.0.2',
     description="Semisupervised Learning Framework",
-    url='https://github.com/tmadl/semisup-learn',
+    url='https://github.com/oroszgy/semisup-learn',
     packages=[
         'methods', 'frameworks'
     ],
