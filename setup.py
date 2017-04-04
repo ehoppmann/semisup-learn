@@ -21,7 +21,7 @@ setup(
     description="Semisupervised Learning Framework",
     url='https://github.com/oroszgy/semisup-learn',
     packages=[
-        'methods', 'frameworks'
+        'semisup_learn'
     ],
     include_package_data=True,
     install_requires=requirements,

@@ -1,12 +1,12 @@
 import numpy as np
 import sklearn.svm
+from semisup_learn.frameworks.SelfLearning import SelfLearningModel
 from six import print_ as print
 from sklearn.datasets.mldata import fetch_mldata
 from sklearn.linear_model.stochastic_gradient import SGDClassifier
 
-from frameworks.CPLELearning import CPLELearningModel
-from frameworks.SelfLearning import SelfLearningModel
-from methods.scikitWQDA import WQDA
+from semisup_learn.frameworks.CPLELearning import CPLELearningModel
+from semisup_learn.methods.scikitWQDA import WQDA
 
 # load data
 cancer = fetch_mldata("Lung cancer (Ontario)")

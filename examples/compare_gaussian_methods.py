@@ -1,10 +1,10 @@
 import numpy as np
+from semisup_learn.frameworks.SelfLearning import SelfLearningModel
 from six import print_ as print
 
 from examples.plotutils import evaluate_and_plot
-from frameworks.CPLELearning import CPLELearningModel
-from frameworks.SelfLearning import SelfLearningModel
-from methods.scikitWQDA import WQDA
+from semisup_learn.frameworks.CPLELearning import CPLELearningModel
+from semisup_learn.methods.scikitWQDA import WQDA
 
 # number of data points
 N = 60
