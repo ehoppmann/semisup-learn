@@ -1,5 +1,3 @@
-import random
-
 import numpy as np
 import sklearn.svm
 from six import print_ as print
@@ -19,8 +17,8 @@ ytrue[ytrue > 0] = 1
 # label a few points 
 labeled_N = 4
 ys = np.array([-1] * len(ytrue))  # -1 denotes unlabeled point
-random_labeled_points = random.sample(np.where(ytrue == 0)[0], labeled_N / 2) + \
-                        random.sample(np.where(ytrue == 1)[0], labeled_N / 2)
+random_labeled_points = np.random.choice(np.where(ytrue == 0)[0], labeled_N // 2, replace=False) + \
+                        np.random.choice(np.where(ytrue == 1)[0], labeled_N // 2, replace=False)
 ys[random_labeled_points] = ytrue[random_labeled_points]
 
 # supervised score 

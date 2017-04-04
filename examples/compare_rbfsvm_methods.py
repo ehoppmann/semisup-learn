@@ -32,8 +32,8 @@ ytrue = ((Xs[:, 0] < np.mean(Xs[:, 0])) * (Xs[:, 1] < np.mean(Xs[:, 1])) + (Xs[:
     Xs[:, 1] > np.mean(Xs[:, 1]))) * 1
 
 ys = np.array([-1] * N)
-sidx = random.sample(np.where(ytrue == 0)[0], supevised_data_points // 2) + \
-       random.sample(np.where(ytrue == 1)[0], supevised_data_points // 2)
+sidx = np.append(np.random.choice(np.where(ytrue == 0)[0], supevised_data_points // 2),
+       np.random.choice(np.where(ytrue == 1)[0], supevised_data_points // 2))
 ys[sidx] = ytrue[sidx]
 
 Xsupervised = Xs[ys != -1, :]

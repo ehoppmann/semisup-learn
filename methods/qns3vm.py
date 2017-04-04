@@ -71,7 +71,9 @@
 import array as arr
 import copy as cp
 import logging
+import sys
 
+import numpy as np
 import scipy
 import scipy.sparse.csc as csc
 from numpy import *
@@ -865,11 +867,11 @@ class RBFKernel():
                 assert self._data1.shape[1] == self._data2.shape[1]
                 linkm = mat(self._data1 * self._data2.T)
                 trnorms1 = []
-                for i in xrange(m):
+                for i in range(m):
                     trnorms1.append((self._data1[i] * self._data1[i].T)[0, 0])
                 trnorms1 = mat(trnorms1).T
                 trnorms2 = []
-                for i in xrange(n):
+                for i in range(n):
                     trnorms2.append((self._data2[i] * self._data2[i].T)[0, 0])
                 trnorms2 = mat(trnorms2).T
                 self.__km = trnorms1 * mat(np.ones((n, 1), dtype=float64)).T

@@ -1,5 +1,3 @@
-import random
-
 import numpy as np
 import sklearn.svm
 from six import print_ as print
@@ -7,7 +5,6 @@ from six import print_ as print
 from examples.plotutils import evaluate_and_plot
 from frameworks.CPLELearning import CPLELearningModel
 from methods import scikitTSVM
-
 
 kernel = "linear"
 
@@ -29,8 +26,8 @@ Xs = np.array(Xs)
 ytrue = np.array(ytrue).astype(int)
 
 ys = np.array([-1] * N)
-sidx = random.sample(np.where(ytrue == 0)[0], supevised_data_points / 2) + random.sample(np.where(ytrue == 1)[0],
-                                                                                         supevised_data_points / 2)
+sidx = np.append(np.random.choice(np.where(ytrue == 0)[0], supevised_data_points // 2),
+                 np.random.choice(np.where(ytrue == 1)[0], supevised_data_points // 2))
 ys[sidx] = ytrue[sidx]
 
 Xsupervised = Xs[ys != -1, :]
