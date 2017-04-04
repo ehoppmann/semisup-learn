@@ -1,8 +1,8 @@
-from sklearn.base import BaseEstimator
-import sklearn.metrics
-import sys
 import numpy
+import sklearn.metrics
+from sklearn.base import BaseEstimator
 from sklearn.linear_model import LogisticRegression as LR
+
 
 class SelfLearningModel(BaseEstimator):
     """
@@ -27,13 +27,13 @@ class SelfLearningModel(BaseEstimator):
     prob_threshold : float, optional (default=0.8)
         Probability threshold for self-labeled instances
     """
-    
-    def __init__(self, basemodel, max_iter = 200, prob_threshold = 0.8):
+
+    def __init__(self, basemodel, max_iter=200, prob_threshold=0.8):
         self.model = basemodel
         self.max_iter = max_iter
-        self.prob_threshold = prob_threshold 
-        
-    def fit(self, X, y): # -1 for unlabeled
+        self.prob_threshold = prob_threshold
+
+    def fit(self, X, y):  # -1 for unlabeled
         """Fit base model to the data in a semi-supervised fashion 
         using self training 
 
@@ -53,33 +53,35 @@ class SelfLearningModel(BaseEstimator):
         -------
         self : returns an instance of self.
         """
-        unlabeledX = X[y==-1, :]
-        labeledX = X[y!=-1, :]
-        labeledy = y[y!=-1]
-        
+        unlabeledX = X[y == -1, :]
+        labeledX = X[y != -1, :]
+        labeledy = y[y != -1]
+
         self.model.fit(labeledX, labeledy)
         unlabeledy = self.predict(unlabeledX)
         unlabeledprob = self.predict_proba(unlabeledX)
         unlabeledy_old = []
-        #re-train, labeling unlabeled instances with model predictions, until convergence
+        # re-train, labeling unlabeled instances with model predictions, until convergence
         i = 0
-        while (len(unlabeledy_old) == 0 or numpy.any(unlabeledy!=unlabeledy_old)) and i < self.max_iter:
+        while (len(unlabeledy_old) == 0 or numpy.any(unlabeledy != unlabeledy_old)) and i < self.max_iter:
             unlabeledy_old = numpy.copy(unlabeledy)
-            uidx = numpy.where((unlabeledprob[:, 0] > self.prob_threshold) | (unlabeledprob[:, 1] > self.prob_threshold))[0]
-            
-            self.model.fit(numpy.vstack((labeledX, unlabeledX[uidx, :])), numpy.hstack((labeledy, unlabeledy_old[uidx])))
+            uidx = \
+            numpy.where((unlabeledprob[:, 0] > self.prob_threshold) | (unlabeledprob[:, 1] > self.prob_threshold))[0]
+
+            self.model.fit(numpy.vstack((labeledX, unlabeledX[uidx, :])),
+                           numpy.hstack((labeledy, unlabeledy_old[uidx])))
             unlabeledy = self.predict(unlabeledX)
             unlabeledprob = self.predict_proba(unlabeledX)
             i += 1
-        
+
         if not getattr(self.model, "predict_proba", None):
             # Platt scaling if the model cannot generate predictions itself
             self.plattlr = LR()
             preds = self.model.predict(labeledX)
-            self.plattlr.fit( preds.reshape( -1, 1 ), labeledy )
-            
+            self.plattlr.fit(preds.reshape(-1, 1), labeledy)
+
         return self
-        
+
     def predict_proba(self, X):
         """Compute probabilities of possible outcomes for samples in X.
 
@@ -97,13 +99,13 @@ class SelfLearningModel(BaseEstimator):
             the model. The columns correspond to the classes in sorted
             order, as they appear in the attribute `classes_`.
         """
-        
+
         if getattr(self.model, "predict_proba", None):
             return self.model.predict_proba(X)
         else:
             preds = self.model.predict(X)
-            return self.plattlr.predict_proba(preds.reshape( -1, 1 ))
-        
+            return self.plattlr.predict_proba(preds.reshape(-1, 1))
+
     def predict(self, X):
         """Perform classification on samples in X.
 
@@ -116,9 +118,8 @@ class SelfLearningModel(BaseEstimator):
         y_pred : array, shape = [n_samples]
             Class labels for samples in X.
         """
-        
+
         return self.model.predict(X)
-    
+
     def score(self, X, y, sample_weight=None):
         return sklearn.metrics.accuracy_score(y, self.predict(X), sample_weight=sample_weight)
-    
