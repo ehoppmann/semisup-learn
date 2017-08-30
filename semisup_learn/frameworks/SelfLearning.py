@@ -65,8 +65,7 @@ class SelfLearningModel(BaseEstimator):
         i = 0
         while (len(unlabeledy_old) == 0 or numpy.any(unlabeledy != unlabeledy_old)) and i < self.max_iter:
             unlabeledy_old = numpy.copy(unlabeledy)
-            uidx = \
-            numpy.where((unlabeledprob[:, 0] > self.prob_threshold) | (unlabeledprob[:, 1] > self.prob_threshold))[0]
+            uidx = numpy.where( numpy.amax(unlabeledprob, axis=1) > self.prob_threshold)[0]
 
             self.model.fit(numpy.vstack((labeledX, unlabeledX[uidx, :])),
                            numpy.hstack((labeledy, unlabeledy_old[uidx])))
