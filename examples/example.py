@@ -1,7 +1,7 @@
+from __future__ import print_function
 import numpy as np
 import sklearn.svm
 from semisup_learn.frameworks.SelfLearning import SelfLearningModel
-from six import print_ as print
 from sklearn.datasets.mldata import fetch_mldata
 from sklearn.linear_model.stochastic_gradient import SGDClassifier
 

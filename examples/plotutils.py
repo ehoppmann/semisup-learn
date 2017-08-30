@@ -1,6 +1,6 @@
+from __future__ import print_function
 import matplotlib.pyplot as plt
 import numpy as np
-from six import print_ as print
 
 cols = [np.array([1, 0, 0]), np.array([0, 1, 0])]  # colors
 

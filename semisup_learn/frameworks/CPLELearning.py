@@ -1,3 +1,4 @@
+from __future__ import print_function
 class Unbuffered(object):
     def __init__(self, stream):
         self.stream = stream
@@ -21,7 +22,6 @@ from sklearn.linear_model import LogisticRegression as LR
 import nlopt
 import scipy.stats
 from six import unichr
-from six import print_ as print
 
 
 class CPLELearningModel(BaseEstimator):
