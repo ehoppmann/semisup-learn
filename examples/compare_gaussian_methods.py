@@ -1,6 +1,6 @@
+from __future__ import print_function
 import numpy as np
 from semisup_learn.frameworks.SelfLearning import SelfLearningModel
-from six import print_ as print
 
 from examples.plotutils import evaluate_and_plot
 from semisup_learn.frameworks.CPLELearning import CPLELearningModel
